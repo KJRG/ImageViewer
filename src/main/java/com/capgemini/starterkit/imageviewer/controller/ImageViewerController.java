@@ -10,7 +10,6 @@ import com.capgemini.starterkit.imageviewer.dataprovider.DataProvider;
 import com.capgemini.starterkit.imageviewer.model.ImageSearch;
 import com.capgemini.starterkit.imageviewer.dataprovider.data.ImageVO;
 
-import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
@@ -18,12 +17,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.control.ListView;
 
 /**
  * Controller for the image viewer screen.
@@ -57,10 +55,7 @@ public class ImageViewerController {
 	private Button searchButton;
 
 	@FXML
-	private TableView<ImageVO> resultTable;
-
-	@FXML
-	private TableColumn<ImageVO, String> filepathColumn;
+	private ListView<ImageVO> resultList;
 
 	@FXML
 	private ScrollPane scrollPane;
@@ -71,6 +66,7 @@ public class ImageViewerController {
 	private final DataProvider dataProvider = DataProvider.INSTANCE;
 
 	private final ImageSearch model = new ImageSearch();
+
 
 	/**
 	 * The JavaFX runtime instantiates this controller.
@@ -92,30 +88,24 @@ public class ImageViewerController {
 	 */
 	@FXML
 	private void initialize() {
-		initializeResultTable();
+		initializeResultList();
 
 		/*
 		 * Bind controls properties to model properties.
 		 */
-		resultTable.itemsProperty().bind(model.resultProperty());
+		resultList.itemsProperty().bind(model.resultProperty());
 	}
 
-	private void initializeResultTable() {
-		/*
-		 * Define what properties of ImageVO will be displayed in different
-		 * columns.
-		 */
-		filepathColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getFilename()));
-
+	private void initializeResultList() {
 		/*
 		 * Show specific text for an empty table.
 		 */
-		resultTable.setPlaceholder(new Label(resources.getString("table.emptyText")));
+		resultList.setPlaceholder(new Label(resources.getString("table.emptyText")));
 
 		/*
-		 * When table row gets selected show selected picture.
+		 * When list element gets selected show selected picture.
 		 */
-		resultTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ImageVO>() {
+		resultList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ImageVO>() {
 
 
 			@Override
@@ -137,8 +127,6 @@ public class ImageViewerController {
 				new Thread(backgroundTask).start();
 			}
 		});
-
-		resultTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 	}
 
 	/**
@@ -193,11 +181,6 @@ public class ImageViewerController {
 				 * Set the path to selected directory in model.
 				 */
 				model.setDirectoryPath(fileDir.getAbsolutePath());
-
-				/*
-				 * Reset sorting in table.
-				 */
-				resultTable.getSortOrder().clear();
 			}
 		};
 

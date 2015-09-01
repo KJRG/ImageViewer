@@ -18,6 +18,6 @@ public class ImageVO {
 
 	@Override
 	public String toString() {
-		return "Image [filename=" + filename + "]";
+		return getFilename();
 	}
 }
