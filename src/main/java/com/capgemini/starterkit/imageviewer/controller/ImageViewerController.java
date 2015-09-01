@@ -117,14 +117,6 @@ public class ImageViewerController {
 				Image image = new Image("file:///" + model.getDirectoryPath() + File.separator + newValue.getFilename());
 				imageView.setImage(image);
 
-				Task<Void> backgroundTask = new Task<Void>() {
-
-					@Override
-					protected Void call() throws Exception {
-						return null;
-					}
-				};
-				new Thread(backgroundTask).start();
 			}
 		});
 	}
