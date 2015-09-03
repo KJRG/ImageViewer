@@ -2,6 +2,9 @@ package com.capgemini.starterkit.imageviewer.dataprovider.data;
 
 public class ImageVO {
 
+	/*
+	 * REV: nie ma potrzeby definiowania klasy VO, gdy zawiera ona tylko jeden string
+	 */
 	private String filename;
 
 	public ImageVO(String filename) {

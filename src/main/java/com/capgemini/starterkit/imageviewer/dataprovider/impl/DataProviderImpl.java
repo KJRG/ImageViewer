@@ -15,6 +15,9 @@ import com.capgemini.starterkit.imageviewer.dataprovider.data.ImageVO;
  */
 public class DataProviderImpl implements DataProvider {
 
+	/*
+	 * REV: wynik nie powinien byc przechowywany jako pole w klasie
+	 */
 	private Collection<ImageVO> images = new ArrayList<>();
 
 	public DataProviderImpl() {
@@ -28,6 +31,9 @@ public class DataProviderImpl implements DataProvider {
 		 */
 		File[] pictures = filepaths.listFiles(new FilenameFilter() {
 			public boolean accept(File dir, String name) {
+				/*
+				 * REV: rozszerzenia moga zawierac duze litery: jPg
+				 */
 				return name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".gif");
 			}
 		});

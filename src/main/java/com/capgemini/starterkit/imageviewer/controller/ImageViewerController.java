@@ -131,6 +131,10 @@ public class ImageViewerController {
 	@FXML
 	private void searchButtonAction(ActionEvent event) {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
+		/*
+		 * REV: okno wyboru katalogu powinno byc modalne w stosunku do glownego okna
+		 * showDialog(primaryStage)
+		 */
 		File fileDir = directoryChooser.showDialog(null);
 
 		if(fileDir == null) {
